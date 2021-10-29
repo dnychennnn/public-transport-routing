@@ -1,8 +1,7 @@
-import scala.io.StdIn.readLine
-
+import InputReader.readInput
 
 object Main extends App {
-  println("hello world")
 
+  val (edges, routeQuery, nearByQuery) = readInput()
 
 }
