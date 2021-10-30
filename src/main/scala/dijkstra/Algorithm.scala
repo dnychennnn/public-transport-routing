@@ -92,6 +92,17 @@ class ShortestPathCalc(edgeTo: Seq[Option[Edge]], timeTo: Seq[Int]) {
   def timeToV(v: Int): Either[String, Int] =
     timeTo.lift(v).toRight(s"Vertex $v does not exist")
 
-//  def nearbyTo(v: Int, maxTavelTime: Int) = {}
+  def nearbyTo(maxTravelTime: Int): Seq[NearByVertex] = {
+    val allDestinations: Seq[Int] = for (i <- 0 until edgeTo.size) yield i
+    allDestinations
+      .map(timeTo(_))
+      .zipWithIndex
+      .filter { case (travelTime, _) =>
+        travelTime != 0 && travelTime <= maxTravelTime
+      }
+      .map { case (travelTime, vertex) => NearByVertex(vertex, travelTime) }
+  }
 
 }
+
+final case class NearByVertex(vertex: Int, travelTime: Int)

@@ -1,6 +1,6 @@
 import dijkstra.DirectedGraphOps.DirectedGraphOps
 import InputReader.readInput
-import OutputBuilder.buildOutput
+import OutputBuilder.{buildRouteOutput, buildSortedNearByOutput}
 import dijkstra.Helpers.mapAlphabetToIndex
 import dijkstra.{EdgeWeightedDigraph, ShortestPath, ShortestPathCalc}
 
@@ -12,14 +12,14 @@ object Main extends App {
 
   val graph =
     EdgeWeightedDigraph().addEdges(edges)
-  println(graph)
   val sp: Either[String, ShortestPathCalc] =
     ShortestPath.run(graph, routeQuery.source)
   val destinationAsIndex: Int = mapAlphabetToIndex(routeQuery.destination)
 
   val resultPath = sp.flatMap(_.pathTo(destinationAsIndex))
   val resultDis = sp.flatMap(_.timeToV(destinationAsIndex))
-  val output = buildOutput(resultPath, resultDis)
+  val resultNearBy = sp.map(_.nearbyTo(nearByQuery.maxTime))
 
-  println(output.right.get)
+  println(buildRouteOutput(resultPath, resultDis).right.get)
+  println(buildSortedNearByOutput(resultNearBy).right.get)
 }
