@@ -1,4 +1,4 @@
-import IOException.QueryException
+import IOException.{InputEdgesException, QueryException}
 import InputModels.{Edge, NearByQuery, RouteQuery}
 
 import scala.io.StdIn.readLine
@@ -22,6 +22,7 @@ object InputReader {
         yield readLine().split("[ :]+").filterNot(_ == "->").toSeq match {
           case Seq(soruce, destination, time) =>
             Edge(soruce, destination, time.toInt)
+          case _ => throw InputEdgesException(n)
         }
     edges
   }
