@@ -16,7 +16,14 @@ This solution is highly inspired by the scala implementation of Dijkstra algorth
 4. Routing Algorithm: leverage exisiting implementation of `Dijkstra` algorithm and adopt to our use case.
 5. Testing: unit testings for `route` and `nearBy` queries using `scalaTest`.
 
-### Total Time Spent
+### Algorithm Discussion:
+1. In the graph building part, a `HashMap` of adjacency lists for all vertices are used to represent the directed graph. (O[E]) 
+2. For the main routing part, three main segments are considered:
+   1. Given the source vertex, an array of size(vertices) storing the last edge that leads to each destination from the source vertex `edgeTo` and another array storing the total time from source vertex to each vertices are precomputed. (O[EVlog(V)])
+   2. Based on the precomputed arrays, three methods `pathTo`, `timeTo` are provided to compute the path, distance to the destination.
+   3. Last but not least, `nearByTo` leverage the `timeTo` method to get the travel time from source to each destination and filter out the ones outside constraints. 
+
+### Total Time Spent:
 - Weekdays [~2] : preparatory work, research findings.
 - Saturday [9 - 12] : Implementing & troubleshooting.
 - Total: 5 hrs
