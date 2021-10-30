@@ -16,56 +16,54 @@ import scala.language.postfixOps
 
 class QueryTest extends AnyFreeSpec with Matchers {
 
-  "QueryTests" - {
+  val graph =
+    EdgeWeightedDigraph().addEdges(testEdges)
+  val sp: Either[String, ShortestPathCalc] =
+    ShortestPath.run(graph, testRouteQuery.source)
 
-    val graph =
-      EdgeWeightedDigraph().addEdges(testEdges)
-    val sp: Either[String, ShortestPathCalc] =
-      ShortestPath.run(graph, testRouteQuery.source)
+  "RouteQueryTest" - {
+    "when search for best route for given source and destination in a graph" - {
+      "should return optimal path in output format" - {
+        val expectedOutput = Right("A -> C -> B: 130")
 
-    "RouteQueryTest" - {
-      "when search for best route for given source and destination in a graph" - {
-        "should return optimal path in output format" - {
-          val expectedOutput = Right("A -> C -> B: 130")
+        val destinationAsIndex: Int =
+          mapAlphabetToIndex(testRouteQuery.destination)
+        val resultPath = sp.flatMap(_.pathTo(destinationAsIndex))
+        val resultDis = sp.flatMap(_.timeToV(destinationAsIndex))
 
-          val destinationAsIndex: Int =
-            mapAlphabetToIndex(testRouteQuery.destination)
-          val resultPath = sp.flatMap(_.pathTo(destinationAsIndex))
-          val resultDis = sp.flatMap(_.timeToV(destinationAsIndex))
+        val output = buildRouteOutput(resultPath, resultDis)
 
-          val output = buildRouteOutput(resultPath, resultDis)
-
-          output shouldBe expectedOutput
-        }
-        "should return empty path if destination is source in output format" - {
-          val expectedOutput =
-            Right("destination is source, travel time = 0")
-
-          val destinationAsIndex: Int =
-            mapAlphabetToIndex(testRouteQuery.source)
-
-          val resultPath = sp.flatMap(_.pathTo(destinationAsIndex))
-          val resultDis = sp.flatMap(_.timeToV(destinationAsIndex))
-
-          val output = buildRouteOutput(resultPath, resultDis)
-          output shouldBe expectedOutput
-        }
+        output shouldBe expectedOutput
       }
-    }
+      "should return empty path if destination is source in output format" - {
+        val expectedOutput =
+          Right("destination is source, travel time = 0")
 
-    "NearyByQueryTest" - {
-      "when search for reachable destinations from given source within certain time in a graph" - {
-        "should return expected destinations" - {
-          val expectedOutput = Right("C: 70, D: 120, B: 130")
-          val resultNearByEither: Either[String, Seq[NearByVertex]] =
-            sp.map(_.nearbyTo(130))
+        val destinationAsIndex: Int =
+          mapAlphabetToIndex(testRouteQuery.source)
 
-          val output = buildSortedNearByOutput(resultNearByEither)
-          output shouldEqual expectedOutput
-        }
+        val resultPath = sp.flatMap(_.pathTo(destinationAsIndex))
+        val resultDis = sp.flatMap(_.timeToV(destinationAsIndex))
+
+        val output = buildRouteOutput(resultPath, resultDis)
+        output shouldBe expectedOutput
       }
     }
   }
+
+  "NearyByQueryTest" - {
+    "when search for reachable destinations from given source within certain time in a graph" - {
+      "should return expected destinations" - {
+        val expectedOutput = Right("C: 70, D: 120, B: 130")
+        val resultNearByEither: Either[String, Seq[NearByVertex]] =
+          sp.map(_.nearbyTo(130))
+
+        val output = buildSortedNearByOutput(resultNearByEither)
+        output shouldEqual expectedOutput
+      }
+    }
+  }
+
 }
 
 object RouteQueryTest {
