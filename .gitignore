@@ -7,9 +7,9 @@ project/plugins/project/
 .history
 .cache
 .lib/
-.idea
+.idea/
 /.scalafmt.conf
-/.bsp
+.bsp/
 
 ### Scala template
 *.class
