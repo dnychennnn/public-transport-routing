@@ -18,7 +18,7 @@ object Main extends App {
   val destinationAsIndex: Int = mapAlphabetToIndex(routeQuery.destination)
 
   val resultPath = sp.flatMap(_.pathTo(destinationAsIndex))
-  val resultDis = sp.flatMap(_.distToV(destinationAsIndex))
+  val resultDis = sp.flatMap(_.timeToV(destinationAsIndex))
   val output = buildOutput(resultPath, resultDis)
 
   println(output.right.get)

@@ -23,7 +23,7 @@ class RouteQueryTest extends AnyFreeSpec with Matchers {
         val destinationAsIndex: Int =
           mapAlphabetToIndex(testRouteQuery.destination)
         val resultPath = sp.flatMap(_.pathTo(destinationAsIndex))
-        val resultDis = sp.flatMap(_.distToV(destinationAsIndex))
+        val resultDis = sp.flatMap(_.timeToV(destinationAsIndex))
         val output = buildOutput(resultPath, resultDis)
 
         output shouldBe expectedOutput

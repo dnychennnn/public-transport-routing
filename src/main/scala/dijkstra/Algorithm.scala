@@ -22,11 +22,11 @@ object ShortestPath {
       Left(s"Source vertex doesn't exist in the graph")
     else {
       val edgeTo = mutable.ArrayBuffer.fill[Option[Edge]](size)(None)
-      val distTo = mutable.ArrayBuffer.fill(size)(Int.MaxValue)
+      val timeTo = mutable.ArrayBuffer.fill(size)(Int.MaxValue)
 
       //init source distance and add to the queue
-      distTo(sourceVIndex) = 0
-      val sourceDist = (sourceVIndex, distTo(sourceVIndex))
+      timeTo(sourceVIndex) = 0
+      val sourceDist = (sourceVIndex, timeTo(sourceVIndex))
       val sortByWeight: Ordering[(Int, Int)] = (a, b) => a._2.compareTo(b._2)
       val queue = mutable.PriorityQueue[(Int, Int)](sourceDist)(sortByWeight)
 
@@ -39,25 +39,25 @@ object ShortestPath {
           {
             val destinationAsIndex = mapAlphabetToIndex(e.destination)
             val sourceAsIndex = mapAlphabetToIndex(e.source)
-            if (distTo(destinationAsIndex) > distTo(sourceAsIndex) + e.time) {
-              distTo(destinationAsIndex) = distTo(sourceAsIndex) + e.time
+            if (timeTo(destinationAsIndex) > timeTo(sourceAsIndex) + e.time) {
+              timeTo(destinationAsIndex) = timeTo(sourceAsIndex) + e.time
               edgeTo(destinationAsIndex) = Some(e)
               if (!queue.exists(_._1 == destinationAsIndex))
-                queue.enqueue((destinationAsIndex, distTo(destinationAsIndex)))
+                queue.enqueue((destinationAsIndex, timeTo(destinationAsIndex)))
             }
           }
 
         }
       }
 
-      Right(new ShortestPathCalc(edgeTo.toSeq, distTo.toSeq))
+      Right(new ShortestPathCalc(edgeTo.toSeq, timeTo.toSeq))
     }
   }
 }
 
 import scala.annotation.tailrec
 
-class ShortestPathCalc(edgeTo: Seq[Option[Edge]], distTo: Seq[Int]) {
+class ShortestPathCalc(edgeTo: Seq[Option[Edge]], timeTo: Seq[Int]) {
 
   /** @param v vertex to get the path for
     * @return returns error when v is invalid or sequence of edges
@@ -80,7 +80,7 @@ class ShortestPathCalc(edgeTo: Seq[Option[Edge]], distTo: Seq[Int]) {
     * when some path from source vertex to vertex v exists
     */
   def hasPath(v: Int): Either[String, Boolean] =
-    distTo
+    timeTo
       .lift(v)
       .map(_ < Double.PositiveInfinity)
       .toRight(s"Vertex $v does not exist")
@@ -89,6 +89,9 @@ class ShortestPathCalc(edgeTo: Seq[Option[Edge]], distTo: Seq[Int]) {
     * @return returns error when v is invalid or
     * the Double distance which is a sum of weights
     */
-  def distToV(v: Int): Either[String, Int] =
-    distTo.lift(v).toRight(s"Vertex $v does not exist")
+  def timeToV(v: Int): Either[String, Int] =
+    timeTo.lift(v).toRight(s"Vertex $v does not exist")
+
+//  def nearbyTo(v: Int, maxTavelTime: Int) = {}
+
 }
