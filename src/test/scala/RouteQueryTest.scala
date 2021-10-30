@@ -1,5 +1,4 @@
 import InputModels.{Edge, RouteQuery}
-import Main.{destinationAsIndex, sp}
 import OutputBuilder.buildOutput
 import dijkstra.DirectedGraphOps.DirectedGraphOps
 import dijkstra.{EdgeWeightedDigraph, ShortestPath, ShortestPathCalc}
