@@ -60,8 +60,8 @@ sbt test
 ```
 
 ## Future Work
-- *Did not consider alphanumeric characters*: The current solution will only work when the edges are denoted in capital alphabetical order (ASCII conversion).   
-  - Could be improved using HashMap in the graph building phase (currently using ArrayBuffer with index as the vertex key) or some preprocessing for vertex mapping to index.
-- *TypeSafe implementation*: Several places were still done in primitive types. It'd be better to complete these.
+- <del>*Did not consider alphanumeric characters*: The current solution will only work when the edges are denoted in capital alphabetical order (ASCII conversion).</del>
+  - <del>Could be improved using HashMap in the graph building phase (currently using ArrayBuffer with index as the vertex key) or some preprocessing for vertex mapping to index.</del>
+  - **Update**: Improved using *v2ilookup* array and it now supports alphanumeric inputs.
 - *Testings*: Improve the test coverage for implemented methods. The present implementation only covers e2e test with 1 provided input.
-  - Input edge cases, e.g. empty edges, unmatched, etc.s
+  - Input edge cases, e.g. empty edges, unmatched, etc.

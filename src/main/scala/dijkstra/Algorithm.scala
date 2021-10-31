@@ -1,6 +1,5 @@
 package dijkstra
 
-import Helpers.{mapAlphabetToIndex, mapIndexToAlphabet}
 import InputModels.Edge
 
 import scala.collection.mutable
@@ -16,7 +15,7 @@ object ShortestPath {
   ): Either[String, ShortestPathCalc] = {
     val size = g.adj.size
 
-    val sourceVIndex = mapAlphabetToIndex(sourceV)
+    val sourceVIndex = g.getIndex(sourceV)
 
     if (sourceVIndex > size)
       Left(s"Source vertex doesn't exist in the graph")
@@ -32,13 +31,13 @@ object ShortestPath {
 
       while (queue.nonEmpty) {
         val (minDestV, _) = queue.dequeue()
-        val minDestVAsAlphabet = mapIndexToAlphabet(minDestV)
+        val minDestVAsAlphabet = g.getVertex(minDestV)
         val edges = g.adj.getOrElse(minDestVAsAlphabet, List.empty)
 
         edges.foreach { e =>
           {
-            val destinationAsIndex = mapAlphabetToIndex(e.destination)
-            val sourceAsIndex = mapAlphabetToIndex(e.source)
+            val destinationAsIndex = g.getIndex(e.destination)
+            val sourceAsIndex = g.getIndex(e.source)
             if (timeTo(destinationAsIndex) > timeTo(sourceAsIndex) + e.time) {
               timeTo(destinationAsIndex) = timeTo(sourceAsIndex) + e.time
               edgeTo(destinationAsIndex) = Some(e)
@@ -50,14 +49,18 @@ object ShortestPath {
         }
       }
 
-      Right(new ShortestPathCalc(edgeTo.toSeq, timeTo.toSeq))
+      Right(new ShortestPathCalc(edgeTo.toSeq, timeTo.toSeq, g.v2ilookup))
     }
   }
 }
 
 import scala.annotation.tailrec
 
-class ShortestPathCalc(edgeTo: Seq[Option[Edge]], timeTo: Seq[Int]) {
+class ShortestPathCalc(
+    edgeTo: Seq[Option[Edge]],
+    timeTo: Seq[Int],
+    v2ilookup: Seq[String]
+) {
 
   /** @param v vertex to get the path for
     * @return returns error when v is invalid or sequence of edges
@@ -68,7 +71,7 @@ class ShortestPathCalc(edgeTo: Seq[Option[Edge]], timeTo: Seq[Int]) {
     @tailrec
     def go(list: List[Edge], vv: Int): List[Edge] =
       edgeTo(vv) match {
-        case Some(e) => go(e +: list, mapAlphabetToIndex(e.source))
+        case Some(e) => go(e +: list, v2ilookup.indexOf(e.source))
         case None    => list
       }
 
@@ -100,9 +103,11 @@ class ShortestPathCalc(edgeTo: Seq[Option[Edge]], timeTo: Seq[Int]) {
       .filter { case (travelTime, _) =>
         travelTime != 0 && travelTime <= maxTravelTime
       }
-      .map { case (travelTime, vertex) => NearByVertex(vertex, travelTime) }
+      .map { case (travelTime, vertex) =>
+        NearByVertex(v2ilookup(vertex), travelTime)
+      }
   }
 
 }
 
-final case class NearByVertex(vertex: Int, travelTime: Int)
+final case class NearByVertex(vertex: String, travelTime: Int)
