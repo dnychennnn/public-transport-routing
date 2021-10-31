@@ -1,6 +1,5 @@
 import InputModels.{Edge, NearByQuery, RouteQuery}
 import OutputBuilder.{buildRouteOutput, buildSortedNearByOutput}
-import dijkstra.DirectedGraphOps.DirectedGraphOps
 import dijkstra.{
   EdgeWeightedDigraph,
   NearByVertex,
@@ -11,6 +10,7 @@ import dijkstra.Helpers.mapAlphabetToIndex
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers
 import RouteQueryTest._
+import dijkstra.EdgeWeightedDigraphOps.EdgeWeightedDigraphOps
 
 import scala.language.postfixOps
 

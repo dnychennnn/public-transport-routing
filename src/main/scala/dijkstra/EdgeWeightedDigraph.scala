@@ -4,8 +4,8 @@ import InputModels.Edge
 
 final case class EdgeWeightedDigraph(adj: Map[String, List[Edge]] = Map.empty)
 
-object DirectedGraphOps {
-  implicit class DirectedGraphOps(g: EdgeWeightedDigraph) {
+object EdgeWeightedDigraphOps {
+  implicit class EdgeWeightedDigraphOps(g: EdgeWeightedDigraph) {
     def addEdges(
         edges: Seq[Edge]
     ): EdgeWeightedDigraph = {

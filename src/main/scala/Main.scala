@@ -1,6 +1,6 @@
-import dijkstra.DirectedGraphOps.DirectedGraphOps
 import InputReader.readInput
 import OutputBuilder.{buildRouteOutput, buildSortedNearByOutput}
+import dijkstra.EdgeWeightedDigraphOps.EdgeWeightedDigraphOps
 import dijkstra.Helpers.mapAlphabetToIndex
 import dijkstra.{EdgeWeightedDigraph, ShortestPath, ShortestPathCalc}
 
