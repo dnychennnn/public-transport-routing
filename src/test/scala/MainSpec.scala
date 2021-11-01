@@ -14,7 +14,7 @@ import dijkstra.EdgeWeightedDigraphOps.EdgeWeightedDigraphOps
 import scala.language.postfixOps
 
 class MainSpec extends AnyFreeSpec with Matchers {
-  "when search in a graph1" - {
+  "search in a graph1" - {
     val testRouteQuery = RouteQuery("A", "B")
     val testNearByQuery = NearByQuery("A", 130)
     val graph1 =
@@ -22,7 +22,7 @@ class MainSpec extends AnyFreeSpec with Matchers {
     val sp: Either[String, ShortestPathCalc] =
       ShortestPath.run(graph1, testRouteQuery.source)
 
-    "should return optimal path in output format for graph" - {
+    "should return optimal path in output format for graph" in {
       val expectedOutput = "A -> C -> B: 130"
 
       val destinationAsIndex: Int =
@@ -34,7 +34,7 @@ class MainSpec extends AnyFreeSpec with Matchers {
 
       output shouldBe expectedOutput
     }
-    "should return empty path if destination is source in output format" - {
+    "should return empty path if destination is source in output format" in {
       val expectedOutput =
         "destination is source, travel time = 0"
 
@@ -49,7 +49,7 @@ class MainSpec extends AnyFreeSpec with Matchers {
     }
 
     "when search for nearby stations from given source within certain time" - {
-      "should return no nearby stations if no nearby stations" - {
+      "should return no nearby stations if no nearby stations" in {
         val expectedOutput = "C: 70, D: 120, B: 130"
         val resultNearByEither: Either[String, Seq[NearByVertex]] =
           ShortestPath
@@ -63,11 +63,11 @@ class MainSpec extends AnyFreeSpec with Matchers {
 
   }
 
-  "when search in a graph2" - {
+  "search in a graph2" - {
     val graph2 =
       EdgeWeightedDigraph().addEdges(testEdges2)
 
-    "should return optimal path in output format for graph2" - {
+    "return optimal path in output format for graph2" in {
 
       val testRouteQuery2 = RouteQuery("BRANDENBURGERTOR", "B")
 
@@ -85,7 +85,7 @@ class MainSpec extends AnyFreeSpec with Matchers {
       output shouldBe expectedOutput
     }
     "when search for nearby stations from given source within certain time in a graph" - {
-      "should return no nearby stations if no nearby stations" - {
+      "should return no nearby stations if no nearby stations" in {
         val testNearByQuery2 = NearByQuery("B", 130)
         val expectedOutput = "No nearby stations"
         val resultNearByEither: Either[String, Seq[NearByVertex]] =
@@ -96,7 +96,7 @@ class MainSpec extends AnyFreeSpec with Matchers {
         val output = buildSortedNearByOutput(resultNearByEither)
         output shouldBe expectedOutput
       }
-      "should return all expected nearby stations" - {
+      "should return all expected nearby stations" in {
         val testNearByQuery2 = NearByQuery("E", 400)
         val expectedOutput = "A: 300, C: 370"
         val resultNearByEither: Either[String, Seq[NearByVertex]] =
