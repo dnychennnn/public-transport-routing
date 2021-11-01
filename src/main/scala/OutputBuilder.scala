@@ -16,12 +16,15 @@ object OutputBuilder {
             .mkString(" -> ") + ": " + resultDist.toString
         else "destination is source, travel time = 0"
     } yield resultOutput
-    output.right.get match {
-      case ""     => "No route found"
-      case result => result
+    output match {
+      case Right(output) =>
+        output match {
+          case ""     => "No route found"
+          case result => result
+        }
+      case Left(_) => "Error building output."
     }
   }
-
   def buildSortedNearByOutput(
       resultNearByEither: Either[String, Seq[NearByVertex]]
   ) = {
@@ -34,9 +37,13 @@ object OutputBuilder {
         }
         .mkString(", ")
     } yield resultOutput
-    output.right.get match {
-      case ""     => "No nearby stations"
-      case result => result
+    output match {
+      case Right(result) =>
+        result match {
+          case ""     => "No nearby stations"
+          case result => result
+        }
+      case Left(_) => "Error building output."
     }
   }
 }
