@@ -39,7 +39,7 @@ This solution is highly inspired by the scala implementation of Dijkstra algorth
 sbt run
 ```
 
-### Test Input
+### Test Inputs
 ```bash
 8
 A -> B: 240
@@ -52,11 +52,23 @@ B -> E: 210
 E -> A: 300
 route A -> B
 nearby A, 130
+
+8
+BRANDENBURGERTOR -> B: 240
+A -> C: 70
+A -> D: 120
+C -> B: 60
+D -> E: 480
+C -> E: 240
+B -> E: 210
+E -> A: 300
+route A -> B
+nearby E, 400
 ```
 
 ### Test All
 ```bash
-sbt test
+sbt clean test
 ```
 
 ## Future Work
