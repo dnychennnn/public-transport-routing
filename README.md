@@ -1,10 +1,34 @@
 # public-transport-routing
 
-## Task Description
-
+## Project structure
+```
+.
+├── HERE_Coding_Exercise.pdf 
+├── README.md
+├── build.sbt
+├── project
+     └── build.properties
+└── src
+├── main
+     └── scala
+         ├── IOException.scala
+         ├── InputModels
+             ├── Edge.scala
+             ├── NearByQuery.scala
+             └── RouteQuery.scala
+         ├── InputReader.scala
+         ├── Main.scala
+         ├── OutputBuilder.scala
+         └── dijkstra
+             ├── Algorithm.scala
+             └── EdgeWeightedDigraph.scala
+└── test[
+    └── scala
+    └── MainSpec.scala
+```
 
 ## Solution Description
-This solution is highly inspired by the scala implementation of Dijkstra algorthm by [Alexey Novakov](https://medium.com/se-notes-by-alexey-novakov/algorithms-in-scala-dijkstra-shortest-path-78c4291dd8ab)
+This solution is highly inspired by the scala i]()mplementation of Dijkstra algorthm by [Alexey Novakov](https://medium.com/se-notes-by-alexey-novakov/algorithms-in-scala-dijkstra-shortest-path-78c4291dd8ab)
 
 ### Solved:
 1. Input reading and output string construction.
