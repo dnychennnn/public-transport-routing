@@ -13,7 +13,7 @@ import dijkstra.EdgeWeightedDigraphOps.EdgeWeightedDigraphOps
 
 import scala.language.postfixOps
 
-class QueryTest extends AnyFreeSpec with Matchers {
+class MainSpec extends AnyFreeSpec with Matchers {
   "when search in a graph1" - {
     val testRouteQuery = RouteQuery("A", "B")
     val testNearByQuery = NearByQuery("A", 130)
@@ -49,7 +49,7 @@ class QueryTest extends AnyFreeSpec with Matchers {
     }
 
     "when search for nearby stations from given source within certain time" - {
-      "should return expected destinations" - {
+      "should return no nearby stations if no nearby stations" - {
         val expectedOutput = "C: 70, D: 120, B: 130"
         val resultNearByEither: Either[String, Seq[NearByVertex]] =
           ShortestPath
@@ -57,7 +57,7 @@ class QueryTest extends AnyFreeSpec with Matchers {
             .map(_.nearbyTo(testNearByQuery.maxTime))
 
         val output = buildSortedNearByOutput(resultNearByEither)
-        output shouldEqual expectedOutput
+        output shouldBe expectedOutput
       }
     }
 
@@ -85,7 +85,7 @@ class QueryTest extends AnyFreeSpec with Matchers {
       output shouldBe expectedOutput
     }
     "when search for nearby stations from given source within certain time in a graph" - {
-      "should return no nearby stations" - {
+      "should return no nearby stations if no nearby stations" - {
         val testNearByQuery2 = NearByQuery("B", 130)
         val expectedOutput = "No nearby stations"
         val resultNearByEither: Either[String, Seq[NearByVertex]] =
@@ -94,9 +94,9 @@ class QueryTest extends AnyFreeSpec with Matchers {
             .map(_.nearbyTo(testNearByQuery2.maxTime))
 
         val output = buildSortedNearByOutput(resultNearByEither)
-        output shouldEqual expectedOutput
+        output shouldBe expectedOutput
       }
-      "should return expected nearby stations" - {
+      "should return all expected nearby stations" - {
         val testNearByQuery2 = NearByQuery("E", 400)
         val expectedOutput = "A: 300, C: 370"
         val resultNearByEither: Either[String, Seq[NearByVertex]] =
@@ -105,7 +105,7 @@ class QueryTest extends AnyFreeSpec with Matchers {
             .map(_.nearbyTo(testNearByQuery2.maxTime))
 
         val output = buildSortedNearByOutput(resultNearByEither)
-        output shouldEqual expectedOutput
+        output shouldBe expectedOutput
       }
     }
   }
