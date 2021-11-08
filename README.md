@@ -77,6 +77,11 @@ E -> A: 300
 route A -> B
 nearby A, 130
 
+1
+A -> B: 240
+route A -> B
+nearby A, 130
+
 8
 BRANDENBURGERTOR -> B: 240
 A -> C: 70
@@ -101,3 +106,5 @@ sbt clean test
   - **Update**: Improved using *v2ilookup* array and it now supports alphanumeric inputs.
 - *Testings*: Improve the test coverage for implemented methods. The present implementation only covers e2e test with 1 provided input.
   - Input edge cases, e.g. empty edges, unmatched, etc.
+- *IMPLEMENTATION WAS WRONG*
+  - v2ilookup: adj.keys doesn't get all the vetices but only the source ones.
