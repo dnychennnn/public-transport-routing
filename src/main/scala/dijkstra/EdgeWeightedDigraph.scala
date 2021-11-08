@@ -3,6 +3,7 @@ package dijkstra
 import InputModels.Edge
 
 final case class EdgeWeightedDigraph(adj: Map[String, List[Edge]] = Map.empty) {
+  //TODO: this is wrong, fix it
   val v2ilookup: Seq[String] = adj.keys.toSeq
 
   def getIndex(vertex: String): Int = {
